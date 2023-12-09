@@ -1,32 +1,33 @@
-const videdb = require("../models/VideoModel").videodb;
+const conactdb = require("../models/ContactUsModel").contactdb;
 
-exports.CreateVideo = async(req, res)=>{
+exports.CreateContact = async(req, res)=>{
     try {
         if(!req.body){
             res.status(300).send("no data found.")
             return ;
         }
-        const{description, videourl, category} = req.body;
-        const newVideo = new videdb({
-            videourl,
+        const{description, name, email, contact} = req.body;
+        const newContact = new conactdb({
+            name,
+            email,
+            contact,
             description,
-            category,
         })
-        await newVideo.save();
+        await newContact.save();
         res.json({message:"video created sucessfully."});
     } catch (err) {
         res.status(500).json(`error occoured ------> ${err}`);
     }
 }
 
-exports.DeleteVideo = async(req,res)=>{
+exports.DeleteContact = async(req,res)=>{
     try {
         if(!req.params.id){
             res.status(100).json({message:"no id provided"});
             return;
         }
         const id = req.params.id;
-        await videdb.findByIdAndDelete({_id:id});
+        await conactdb.findByIdAndDelete({_id:id});
         res.json({message:"video of given id deleted sucessfully"});
     } catch (err) {
         res.status(500).json(`error occoured ------> ${err}`);
@@ -34,7 +35,7 @@ exports.DeleteVideo = async(req,res)=>{
 }
 
 
-exports.UpdateVideo = async(req,res)=>{
+exports.UpdateContact = async(req,res)=>{
     try {
         if(!req.params.id){
             res.status(100).json({message:"no id provided"});
@@ -45,7 +46,7 @@ exports.UpdateVideo = async(req,res)=>{
             return;
         }
         const{description, videourl, category} = req.body;
-        await videdb.findByIdAndUpdate({_id:id},{
+        await conactdb.findByIdAndUpdate({_id:id},{
             description, 
             videourl, 
             category,
@@ -58,15 +59,15 @@ exports.UpdateVideo = async(req,res)=>{
 }
 
 
-exports.FindVideo = async(req,res)=>{
+exports.FindContact = async(req,res)=>{
     try {
         if(req.query.id){
             const id = req.query.id;
-            const data = await videdb.findById({_id:id});
+            const data = await conactdb.findById({_id:id});
             res.json(data);
             return;
         }
-        const data = await videdb.find();
+        const data = await conactdb.find();
         res.json(data);
         return;        
     } catch (err) {

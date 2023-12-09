@@ -10,6 +10,8 @@ route.get("/",(req,res)=>{
     res.send("home page");
 })
 
+
+
 // cookie apis
 
 route.get("/setcookie",(req,res)=>{
@@ -24,6 +26,8 @@ route.get("/deletecookie",(req, res)=>{
 route.get("/viewcookie",(req,res)=>{
     res.json(req.cookies)
 })
+
+
 
 
 // sessions apis

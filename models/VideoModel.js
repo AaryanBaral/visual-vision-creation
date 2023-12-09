@@ -14,4 +14,4 @@ var VideoModel = mongoose.Schema({
     }],
 
 })
-exports.videodb = mongoose.model('video',OurTeamModel);
+exports.videodb = mongoose.model('video',VideoModel);
