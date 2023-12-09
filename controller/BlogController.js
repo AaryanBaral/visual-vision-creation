@@ -1,40 +1,40 @@
-const videodb = require("../models/VideoModel").videodb;
+const blogdb = require("../models/BlogModel").blogdb;
 
-exports.CreateVideo = async(req, res)=>{
+exports.CreateBlog = async(req, res)=>{
     try {
         if(!req.body){
             res.status(300).send("no data found.")
             return ;
         }
-        const{description, videourl, category} = req.body;
-        const newVideo = new videodb({
+        const{description, videourl, title} = req.body;
+        const newBlog = new blogdb({
             videourl,
             description,
-            category,
+            title,
         })
-        await newVideo.save();
-        res.json({message:"video created sucessfully."});
+        await newBlog.save();
+        res.json({message:"blog created sucessfully."});
     } catch (err) {
         res.status(500).json(`error occoured ------> ${err}`);
     }
 }
 
-exports.DeleteVideo = async(req,res)=>{
+exports.DeleteBlog = async(req,res)=>{
     try {
         if(!req.params.id){
             res.status(100).json({message:"no id provided"});
             return;
         }
         const id = req.params.id;
-        await videodb.findByIdAndDelete({_id:id});
-        res.json({message:"video of given id deleted sucessfully"});
+        await blogdb.findByIdAndDelete({_id:id});
+        res.json({message:"blog of given id deleted sucessfully"});
     } catch (err) {
         res.status(500).json(`error occoured ------> ${err}`);
     }
 }
 
 
-exports.UpdateVideo = async(req,res)=>{
+exports.UpdateBlog = async(req,res)=>{
     try {
         if(!req.params.id){
             res.status(100).json({message:"no id provided"});
@@ -44,13 +44,13 @@ exports.UpdateVideo = async(req,res)=>{
             res.status(100).json({message:"no information provided"});
             return;
         }
-        const{description, videourl, category} = req.body;
-        await videodb.findByIdAndUpdate({_id:id},{
+        const{description, videourl, title} = req.body;
+        await blogdb.findByIdAndUpdate({_id:id},{
             description, 
             videourl, 
-            category,
+            title,
         });
-        res.json({message:"video of given id updated sucessfully"});
+        res.json({message:"blog of given id updated sucessfully"});
     } catch (err) {
         res.status(500).json(`error occoured ------> ${err}`);
         
@@ -58,15 +58,15 @@ exports.UpdateVideo = async(req,res)=>{
 }
 
 
-exports.FindVideo = async(req,res)=>{
+exports.FindBlog = async(req,res)=>{
     try {
         if(req.query.id){
             const id = req.query.id;
-            const data = await videodb.findById({_id:id});
+            const data = await blogdb.findById({_id:id});
             res.json(data);
             return;
         }
-        const data = await videodb.find();
+        const data = await blogdb.find();
         res.json(data);
         return;        
     } catch (err) {

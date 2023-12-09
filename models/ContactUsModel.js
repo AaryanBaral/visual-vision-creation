@@ -11,7 +11,7 @@ var ContactModel = mongoose.Schema({
         type:String,
     },
     description:{
-        typpe:String,
+        type:String,
         required:true,
     }
 

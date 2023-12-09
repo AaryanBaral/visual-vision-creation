@@ -4,6 +4,9 @@ const {upload} = require("../middleware/multer-config");
 const testimonycontroller = require("../controller/TestimonialController");
 const our_team_controller = require("../controller/OurTeamController");
 const videocontroller = require("../controller/VideoController");
+const contactcontroller = require("../controller/ContactUsController");
+const blog_controller = require("../controller/BlogController");
+const photo_controller = require("../controller/PhotoController");
 
 
 route.get("/",(req,res)=>{
@@ -72,6 +75,30 @@ route.post("/v3/video",videocontroller.CreateVideo);
 route.get("/v3/video",videocontroller.FindVideo);
 route.delete("/v3/video/:id",videocontroller.DeleteVideo);
 route.put("/v3/video/:id",videocontroller.UpdateVideo);
+
+
+//  contact Us API
+route.post("/v3/contact",contactcontroller.CreateContact);
+route.get("/v3/contact",contactcontroller.FindContact);
+route.delete("/v3/contact/:id",contactcontroller.DeleteContact);
+route.put("/v3/contact/:id",contactcontroller.UpdateContact);
+
+
+
+//  contact Us API
+route.post("/v3/blog",blog_controller.CreateBlog);
+route.get("/v3/blog",blog_controller.FindBlog);
+route.delete("/v3/blog/:id",blog_controller.DeleteBlog);
+route.put("/v3/blog/:id",blog_controller.UpdateBlog);
+
+
+
+//  photos Us API
+route.post("/v3/photo",upload,photo_controller.CreatePhoto);
+route.get("/v3/photo",photo_controller.FindPhoto);
+route.delete("/v3/photo/:id",upload, photo_controller.DeletePhoto);
+route.put("/v3/photo/:id",upload, photo_controller.UpdatePhoto);
+
 
 
 
