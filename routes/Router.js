@@ -3,6 +3,7 @@ const route = express.Router();
 const {upload} = require("../middleware/multer-config");
 const practicecontroller = require("../controller/PracticeController");
 const testimonycontroller = require("../controller/TestimonialController");
+const our_team_controller = require("../controller/OurTeamController");
 
 
 
@@ -46,9 +47,23 @@ route.get("/viewsessions",(req,res)=>{
 
 
 
-route.post("/practice",practicecontroller.CreatePractice);
+
+
+// Testimony API 
 route.post("/v3/testimony",upload,testimonycontroller.CreateTestimony);
+route.get("/v3/testimony",testimonycontroller.FindTestimony);
 route.delete("/v3/testimony/:id",upload,testimonycontroller.DeleteTestimony);
 route.put("/v3/testimony/:id",upload,testimonycontroller.UpdateTestimony);
+
+
+
+// Our Team API
+route.post("/v3/ourteam",upload,our_team_controller.CreateOurTeam);
+route.get("/v3/ourteam",our_team_controller.FindOurTeam);
+route.delete("/v3/ourteam/:id",upload,our_team_controller.DeleteOurTeam);
+route.put("/v3/ourteam/:id",upload,our_team_controller.UpdateOurTeam);
+
+
+
 
 module.exports = route
