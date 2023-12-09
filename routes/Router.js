@@ -48,6 +48,6 @@ route.get("/viewsessions",(req,res)=>{
 
 route.post("/practice",practicecontroller.CreatePractice);
 route.post("/v3/testimony",upload,testimonycontroller.CreateTestimony);
-route.post("/v3/file",upload,testimonycontroller.FileInfo);
+route.delete("/v3/testimony/:id",upload,testimonycontroller.DeleteTestimony);
 
 module.exports = route

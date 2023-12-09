@@ -1,21 +1,34 @@
-const {getStorage, ref, getDownloadURL, uploadBytesResumable} = require("firebase/storage");
+const {getStorage, ref, getDownloadURL, uploadBytesResumable, deleteObject} = require("firebase/storage");
 const { initializeApp } = require("firebase/app") ;
-const firebase = require("../configure/FirebaseConfig");
+const firebaseAuth = require("../configure/FirebaseConfig");
 
-initializeApp(firebase);
+initializeApp(firebaseAuth);
 
+const storage = getStorage();
 
 
 exports.UploadImage = async(file)=>{
-    const storage = getStorage();
     const dateTime = Date.now();
     const filename = `/image/${dateTime}`
     const storageRef = ref(storage, filename)
+    console.log(storageRef)
     const metaData = {
         contentType:file.type,
     }
-    const uploaded = await uploadBytesResumable(storageRef, file.buffer, metaData)
-    const DownloadUrl = await getDownloadURL(uploaded.ref)
-    return DownloadUrl;
+    const uploaded = await uploadBytesResumable(storageRef, file.buffer, metaData);
+    const DownloadUrl = await getDownloadURL(uploaded.ref);
+    console.log(storageRef);
+    console.log(uploaded)
+    return {DownloadUrl,storageRef};
 
+}
+exports.DeleteImage = async(url)=>{
+    try{
+        const storageRef = ref(storage,url);
+        console.log(storageRef)
+        await deleteObject(storageRef);
+        return true;
+    }catch(err){
+        return false
+    }
 }
