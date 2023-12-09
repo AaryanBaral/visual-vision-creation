@@ -51,14 +51,17 @@ exports.UpdateTestimony = async(req,res)=>{
                 buffer:req.file.buffer
             }
         }
-        const imageUrl = await image.UploadImage(file);
         const id = req.params.id;
+        const d = await testimonydb.findById({_id:id});
+        image.DeleteImage(d.imageUrl);
+        const snapshot = await image.UploadImage(file);
+        const imageUrl = snapshot.DownloadUrl
         const data = await testimonydb.findByIdAndUpdate({_id:id},{
             name,
             testimony,
             imageUrl,
         });
-
+        res.json({mesage:"testimony updated sucessfully"});
         
     } catch (err) {
         res.status(500).json(`error occoured ------> ${err}`);
