@@ -1,11 +1,9 @@
 const express = require("express");
 const route = express.Router();
 const {upload} = require("../middleware/multer-config");
-const practicecontroller = require("../controller/PracticeController");
 const testimonycontroller = require("../controller/TestimonialController");
 const our_team_controller = require("../controller/OurTeamController");
-
-
+const videocontroller = require("../controller/VideoController");
 
 
 route.get("/",(req,res)=>{
@@ -62,6 +60,14 @@ route.post("/v3/ourteam",upload,our_team_controller.CreateOurTeam);
 route.get("/v3/ourteam",our_team_controller.FindOurTeam);
 route.delete("/v3/ourteam/:id",upload,our_team_controller.DeleteOurTeam);
 route.put("/v3/ourteam/:id",upload,our_team_controller.UpdateOurTeam);
+
+
+
+// Video API
+route.post("/v3/video",videocontroller.CreateVideo);
+route.get("/v3/video",videocontroller.FindVideo);
+route.delete("/v3/video/:id",videocontroller.DeleteVideo);
+route.put("/v3/video/:id",videocontroller.UpdateVideo);
 
 
 
