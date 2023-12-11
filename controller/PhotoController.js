@@ -16,14 +16,19 @@ exports.CreatePhoto = async(req, res)=>{
         }
         const snapshot = await image.UploadImage(file);
         const imageUrl = snapshot.DownloadUrl;
-        const{categoty,description} = req.body;
+        const{category,description} = req.body;
+        console.log(category)
         const newphoto = new photodb({
-            categoty,
+            category,
             description,
             imageUrl,
 
         })
-        await newphoto.save(); 
+        const data = await newphoto.save(); 
+        if(!data){
+            res.status(300).json({message:"error"});
+            return ;
+        }
         res.json("photo saved sucessfully");
 
     }catch(err){
@@ -59,6 +64,10 @@ exports.UpdatePhoto = async(req,res)=>{
             description,
             imageUrl,
         });
+        if(!data){
+            res.status(300).json({message:"photo of given id not found"});
+            return ;
+        }
         res.json({mesage:"photo updated sucessfully"});
         
     } catch (err) {
@@ -77,6 +86,10 @@ exports.DeletePhoto = async(req,res)=>{
         const id = req.params.id;
         const d = await photodb.findById({_id:id});
         const data = await photodb.findByIdAndDelete({_id:id});
+        if(!data){
+            res.status(300).json({message:"photo of given id not found"});
+            return ;
+        }
         image.DeleteImage(d.imageUrl);
         res.json({message:"photo deleted sucessfully"})
     }catch(err){

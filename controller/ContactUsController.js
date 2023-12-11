@@ -13,7 +13,11 @@ exports.CreateContact = async(req, res)=>{
             contact,
             description,
         })
-        await newContact.save();
+        const data = await newContact.save();
+        if(!data){
+            res.status(300).json({message:"error"});
+            return ;
+        }
         res.json({message:"contact created sucessfully."});
     } catch (err) {
         res.status(500).json(`error occoured ------> ${err}`);
@@ -27,7 +31,11 @@ exports.DeleteContact = async(req,res)=>{
             return;
         }
         const id = req.params.id;
-        await conactdb.findByIdAndDelete({_id:id});
+        const data = await conactdb.findByIdAndDelete({_id:id});
+        if(!data){
+            res.status(300).json({message:"contact of given id not found"});
+            return;
+        }
         res.json({message:"contact of given id deleted sucessfully"});
     } catch (err) {
         res.status(500).json(`error occoured ------> ${err}`);
@@ -46,12 +54,16 @@ exports.UpdateContact = async(req,res)=>{
         }
         const id = req.params.id;
         const{description, name, email, contact} = req.body;
-        await conactdb.findByIdAndUpdate({_id:id},{
+        const data = await conactdb.findByIdAndUpdate({_id:id},{
             description, 
             name, 
             email,
             contact
         });
+        if(!data){
+            res.status(300).json({message:"contact of given id not found"});
+            return ;
+        }
         res.json({message:"contact of given id updated sucessfully"});
     } catch (err) {
         res.status(500).json(`error occoured ------> ${err}`);

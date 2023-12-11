@@ -2,7 +2,7 @@ const multer = require("multer");
 
 const upload = multer({
     storage:multer.memoryStorage()
-}).single("name");
+}).single("image");
 
 
 module.exports = {upload}
