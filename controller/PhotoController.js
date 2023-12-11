@@ -24,7 +24,7 @@ exports.CreatePhoto = async(req, res)=>{
 
         })
         await newphoto.save(); 
-        res.json("data saved sucessfully");
+        res.json("photo saved sucessfully");
 
     }catch(err){
         res.status(500).json(`error occoured ------> ${err}`);

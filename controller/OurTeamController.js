@@ -25,7 +25,7 @@ exports.CreateOurTeam = async(req,res)=>{
             imageUrl,
         })
         await new_our_team.save();
-        res.json("data saved sucessfully");
+        res.json("our teram saved sucessfully");
     }catch(err){
         res.status(500).json(`error occoured ------> ${err}`);
     }
@@ -90,7 +90,7 @@ exports.UpdateOurTeam = async(req,res)=>{
             designatoin,
             imageUrl,
         });
-        res.json({mesage:"testimony updated sucessfully"});
+        res.json({mesage:"our team updated sucessfully"});
         
     } catch (err) {
         res.status(500).json(`error occoured ------> ${err}`);

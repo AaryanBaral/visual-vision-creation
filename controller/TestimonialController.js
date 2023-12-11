@@ -25,7 +25,7 @@ exports.CreateTestimony = async(req, res)=>{
 
         })
         await newtestimony.save(); 
-        res.json("data saved sucessfully");
+        res.json("testimony saved sucessfully");
 
     }catch(err){
         res.status(500).json(`error occoured ------> ${err}`);

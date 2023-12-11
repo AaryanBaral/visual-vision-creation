@@ -85,7 +85,7 @@ route.put("/v3/contact/:id",contactcontroller.UpdateContact);
 
 
 
-//  contact Us API
+//  blog Us API
 route.post("/v3/blog",blog_controller.CreateBlog);
 route.get("/v3/blog",blog_controller.FindBlog);
 route.delete("/v3/blog/:id",blog_controller.DeleteBlog);

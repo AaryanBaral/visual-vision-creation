@@ -14,7 +14,7 @@ exports.CreateContact = async(req, res)=>{
             description,
         })
         await newContact.save();
-        res.json({message:"video created sucessfully."});
+        res.json({message:"contact created sucessfully."});
     } catch (err) {
         res.status(500).json(`error occoured ------> ${err}`);
     }
@@ -28,12 +28,11 @@ exports.DeleteContact = async(req,res)=>{
         }
         const id = req.params.id;
         await conactdb.findByIdAndDelete({_id:id});
-        res.json({message:"video of given id deleted sucessfully"});
+        res.json({message:"contact of given id deleted sucessfully"});
     } catch (err) {
         res.status(500).json(`error occoured ------> ${err}`);
     }
 }
-
 
 exports.UpdateContact = async(req,res)=>{
     try {
@@ -45,13 +44,15 @@ exports.UpdateContact = async(req,res)=>{
             res.status(100).json({message:"no information provided"});
             return;
         }
-        const{description, videourl, category} = req.body;
+        const id = req.params.id;
+        const{description, name, email, contact} = req.body;
         await conactdb.findByIdAndUpdate({_id:id},{
             description, 
-            videourl, 
-            category,
+            name, 
+            email,
+            contact
         });
-        res.json({message:"video of given id updated sucessfully"});
+        res.json({message:"contact of given id updated sucessfully"});
     } catch (err) {
         res.status(500).json(`error occoured ------> ${err}`);
         
