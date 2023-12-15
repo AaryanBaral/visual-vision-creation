@@ -7,6 +7,7 @@ const videocontroller = require("../controller/VideoController");
 const contactcontroller = require("../controller/ContactUsController");
 const blog_controller = require("../controller/BlogController");
 const photo_controller = require("../controller/PhotoController");
+const admin_controller = require("../controller/AdminController");
 
 
 route.get("/",(req,res)=>{
@@ -99,6 +100,15 @@ route.get("/v3/photo",photo_controller.FindPhoto);
 route.delete("/v3/photo/:id",upload, photo_controller.DeletePhoto);
 route.put("/v3/photo/:id",upload, photo_controller.UpdatePhoto);
 
+
+
+
+//  photos Us API
+route.post("/v3/admin",admin_controller.CreateAdmin);
+route.get("/v3/admin",admin_controller.FindAdmin);
+route.delete("/v3/admin/:id", admin_controller.DeleteAdmin);
+route.put("/v3/admin/:id",admin_controller.UpdateAdmin);
+route.post("/v3/adminLogin",admin_controller.AdminLogin);
 
 
 
