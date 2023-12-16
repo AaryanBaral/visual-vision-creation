@@ -1,12 +1,17 @@
 //  all header files included
+const dotenv = require("dotenv").config({path: "./configure/config.env"});
 const express = require("express");
 const body_parser = require("body-parser");
 const cookie = require("cookie-parser");
-const cors = require("cors");
-const dotenv = require("dotenv").config({path: "./configure/config.env"});
 const sessoin = require("express-session");
 const databse = require("./connection/Connection");
 const Route = require("./routes/Router");
+const cors = require("cors");
+
+
+
+
+
 
 
 
@@ -16,13 +21,12 @@ const app = express();
 
 
 // cross origin credentials
-app.use(cors({
-    origin:"*"
-}))
+app.use(cors({origin:["http://localhost:3000", "http://localhost:3001", "https://localhost:3000", "https://localhost:3001"],credentials:true,methods:["GET","HEAD","PUT","PATCH","POST","DELETE"],preflightContinue:false}))
 
 
 // body-parser authorizaton 
 app.use(body_parser.urlencoded({extended:true}));
+app.use(body_parser.json());
 
 
 

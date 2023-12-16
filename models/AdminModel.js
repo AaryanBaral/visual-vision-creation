@@ -19,20 +19,20 @@ var AdminModel = mongoose.Schema({
 
 })
 AdminModel.pre("save", async function(next){
-    console.log(this.password);
     if(this.isModified("password")){
         this.password = await bcrypt.hash(this.password,8);
-        console.log(this.password)
     }
     next();
 })
-AdminModel.methods.getAuthToken= async function(){
+
+AdminModel.methods.generateAuthToken = async function(){
     try {
-        const token = jwt.sign({_id:this._id},process.env.JWT_SECERATE_KEY);
+        const token =  jwt.sign({_id:this._id},process.env.JWT_SECERATE_KEY);
         this.tokens = this.tokens.concat({token});
         return token;
     } catch (err) {
         return {message:"error "}
     }
 }
+
 exports.admindb = mongoose.model('admin',AdminModel);

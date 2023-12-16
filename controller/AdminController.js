@@ -1,5 +1,6 @@
 const admindb = require("../models/AdminModel").admindb;
-const bcrypt = require("bcryptjs")
+const bcrypt = require("bcryptjs");
+const jwt = require("jsonwebtoken");
 
 exports.CreateAdmin= async(req, res)=>{
     try {
@@ -72,7 +73,7 @@ exports.FindAdmin = async(req,res)=>{
             res.json(data);
             return;
         }
-        const data = await admindb.find();
+        const data = admindb.find();
         res.json(data);
         return;        
     } catch (err) {
@@ -92,16 +93,28 @@ exports.AdminLogin = async(req, res)=>{
             res.status(400).json({message:"invalid email"});  
             return ;          
         }
-        if(!bcrypt.compare(password, admin.password)){
+        const isMatching = await bcrypt.compare(password, admin.password);
+        if(!isMatching){
             res.status(400).json({message:"invalid password provided"}); 
             return ; 
         }
-        const token = await admindb.generateAuthToken();
-        admindb.save();
+        const token = await admin.generateAuthToken();
+        admin.save();
         res.json({message:token});
         
     } catch (err) {
-
+        res.status(500).json(`error occoured ------> ${err}`);
         
+    }
+}
+exports.IsAdminLoggedIn = async(req, res)=>{
+    try {
+        const token = req.headers['token'];
+        const verify = jwt.verify(token ,process.env.JWT_SECERATE_KEY);
+        const admin = admindb.findById({_id:verify._id});
+        res.json({mesasge:"user verified"});
+        return ;
+    } catch (err) {
+        res.status(500).json(`error occoured ------> ${err}`);
     }
 }

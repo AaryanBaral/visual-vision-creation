@@ -109,6 +109,7 @@ route.get("/v3/admin",admin_controller.FindAdmin);
 route.delete("/v3/admin/:id", admin_controller.DeleteAdmin);
 route.put("/v3/admin/:id",admin_controller.UpdateAdmin);
 route.post("/v3/adminLogin",admin_controller.AdminLogin);
+route.get("/v3/admin/individual",admin_controller.IsAdminLoggedIn);
 
 
 
