@@ -10,7 +10,7 @@ const cors = require("cors");
 
 
 
-
+// ******************************** Use Helmet for http header security********************
 
 
 
@@ -21,7 +21,7 @@ const app = express();
 
 
 // cross origin credentials
-app.use(cors({origin:["http://localhost:3000", "http://localhost:3001", "https://localhost:3000", "https://localhost:3001"],credentials:true,methods:["GET","HEAD","PUT","PATCH","POST","DELETE"],preflightContinue:false}))
+app.use(cors({origin:["http://localhost:3000", "http://localhost:3002","http://localhost:3001", "https://localhost:3000", "https://localhost:3001"],credentials:true,methods:["GET","HEAD","PUT","PATCH","POST","DELETE"],preflightContinue:false}))
 
 
 // body-parser authorizaton 

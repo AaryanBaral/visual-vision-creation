@@ -36,6 +36,8 @@ exports.CreatePhoto = async(req, res)=>{
     }
 
 }
+
+
 exports.UpdatePhoto = async(req,res)=>{
     try {
         if(!req.params.id){
@@ -77,6 +79,9 @@ exports.UpdatePhoto = async(req,res)=>{
     
 
 }
+
+
+
 exports.DeletePhoto = async(req,res)=>{
     try{
         if(!req.params.id){
@@ -98,6 +103,9 @@ exports.DeletePhoto = async(req,res)=>{
 
 
 }
+
+
+
 exports.FindPhoto = async(req,res)=>{
     try{
         if(req.query.id){
@@ -105,6 +113,12 @@ exports.FindPhoto = async(req,res)=>{
             const data = await photodb.findById({_id:id});
             res.json(data);
             return;
+        }
+        if(req.query.category){
+            const regex = {$regex:req.query.category,$options:'i'};
+            const data = await photodb.find({category:regex});
+            res.send(data);
+            return ;
         }
         const data = await photodb.find();
         res.json(data);

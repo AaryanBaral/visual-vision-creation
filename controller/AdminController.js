@@ -100,7 +100,7 @@ exports.AdminLogin = async(req, res)=>{
         }
         const token = await admin.generateAuthToken();
         admin.save();
-        res.json({message:token});
+        return res.json({message:token});
         
     } catch (err) {
         res.status(500).json(`error occoured ------> ${err}`);
@@ -110,11 +110,24 @@ exports.AdminLogin = async(req, res)=>{
 exports.IsAdminLoggedIn = async(req, res)=>{
     try {
         const token = req.headers['token'];
+
         const verify = jwt.verify(token ,process.env.JWT_SECERATE_KEY);
-        const admin = admindb.findById({_id:verify._id});
-        res.json({mesasge:"user verified"});
-        return ;
+        const admin = await admindb.findById({_id:verify._id});
+        res.json({data:admin});
     } catch (err) {
         res.status(500).json(`error occoured ------> ${err}`);
+    }
+}
+
+exports.AdminLogout = async(req, res)=>{
+    try{
+        req.admin.tokens = req.admin.tokens.filter((currentElement)=>{
+            return currentElement.token != req.token;
+        });
+        await req.admin.save();
+        res.json({message:"Logged out sucessfully"});
+    }catch(err){
+        res.status(400).json(err);
+
     }
 }

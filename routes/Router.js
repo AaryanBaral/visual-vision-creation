@@ -8,6 +8,11 @@ const contactcontroller = require("../controller/ContactUsController");
 const blog_controller = require("../controller/BlogController");
 const photo_controller = require("../controller/PhotoController");
 const admin_controller = require("../controller/AdminController");
+const package_controller = require("../controller/CustomPackageController");
+const mail_controller = require("../controller/Mailer");
+const AdminAuth = require("../middleware/adminAuth");
+const { Router } = require("express");
+
 
 
 route.get("/",(req,res)=>{
@@ -102,16 +107,25 @@ route.put("/v3/photo/:id",upload, photo_controller.UpdatePhoto);
 
 
 
+//  Package API
+route.post("/v3/package",package_controller.CreatePackage);
+route.get("/v3/package",photo_controller.FindPhoto);
+route.delete("/v3/package/:id", photo_controller.DeletePhoto);
+route.put("/v3/package/:id", photo_controller.UpdatePhoto);
 
-//  photos Us API
+
+
+
+//  Admin Us API
 route.post("/v3/admin",admin_controller.CreateAdmin);
 route.get("/v3/admin",admin_controller.FindAdmin);
 route.delete("/v3/admin/:id", admin_controller.DeleteAdmin);
 route.put("/v3/admin/:id",admin_controller.UpdateAdmin);
 route.post("/v3/adminLogin",admin_controller.AdminLogin);
+route.post("/v3/adminLogout",AdminAuth,admin_controller.AdminLogout);
 route.get("/v3/admin/individual",admin_controller.IsAdminLoggedIn);
 
-
+route.get("/v3/mail", mail_controller.sendMail);
 
 
 module.exports = route
