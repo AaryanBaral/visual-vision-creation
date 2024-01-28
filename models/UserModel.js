@@ -1,7 +1,7 @@
 const mongoose = require("mongoose");
 const bcrypt = require("bcryptjs");
 const jwt = require("jsonwebtoken");
-var AdminModel = mongoose.Schema({
+var UserModel = mongoose.Schema({
     email:{
         type:String,
         required:true,
@@ -11,6 +11,18 @@ var AdminModel = mongoose.Schema({
         type:String,
         required:true,
     },
+    imageUrl:{
+        type:String,
+        default:"https://icon-library.com/images/anonymous-avatar-icon/anonymous-avatar-icon-25.jpg",
+    },
+    name:{
+        type:String,
+        required:true,
+    },
+    address:{
+        type:String,
+        default:"",
+    },
     tokens:[{
         token:{
             type:String,
@@ -19,14 +31,14 @@ var AdminModel = mongoose.Schema({
     }]
 
 })
-AdminModel.pre("save", async function(next){
+UserModel.pre("save", async function(next){
     if(this.isModified("password")){
         this.password = await bcrypt.hash(this.password,8);
     }
     next();
 })
 
-AdminModel.methods.generateAuthToken = async function(){
+UserModel.methods.generateAuthToken = async function(){
     try {
         const token =  jwt.sign({_id:this._id},process.env.JWT_SECERATE_KEY);
         this.tokens = this.tokens.concat({token});
@@ -36,4 +48,4 @@ AdminModel.methods.generateAuthToken = async function(){
     }
 }
 
-exports.admindb = mongoose.model('admin',AdminModel);
+exports.userdb = mongoose.model('user',UserModel);

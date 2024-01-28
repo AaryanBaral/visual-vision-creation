@@ -11,6 +11,8 @@ const admin_controller = require("../controller/AdminController");
 const package_controller = require("../controller/CustomPackageController");
 const mail_controller = require("../controller/Mailer");
 const AdminAuth = require("../middleware/adminAuth");
+const UserAuth = require("../middleware/userAuth");
+const user_controller = require("../controller/UserController")
 const { Router } = require("express");
 
 
@@ -109,9 +111,8 @@ route.put("/v3/photo/:id",upload, photo_controller.UpdatePhoto);
 
 //  Package API
 route.post("/v3/package",package_controller.CreatePackage);
-route.get("/v3/package",photo_controller.FindPhoto);
-route.delete("/v3/package/:id", photo_controller.DeletePhoto);
-route.put("/v3/package/:id", photo_controller.UpdatePhoto);
+route.get("/v3/package",package_controller.FindPackage);
+route.delete("/v3/package/:id", package_controller.DeletePackage);
 
 
 
@@ -119,12 +120,28 @@ route.put("/v3/package/:id", photo_controller.UpdatePhoto);
 //  Admin Us API
 route.post("/v3/admin",admin_controller.CreateAdmin);
 route.get("/v3/admin",admin_controller.FindAdmin);
-route.delete("/v3/admin/:id", admin_controller.DeleteAdmin);
+route.delete("/v3/admin/",AdminAuth, admin_controller.DeleteAdmin);
 route.put("/v3/admin/:id",admin_controller.UpdateAdmin);
 route.post("/v3/adminLogin",admin_controller.AdminLogin);
 route.post("/v3/adminLogout",AdminAuth,admin_controller.AdminLogout);
 route.get("/v3/admin/individual",admin_controller.IsAdminLoggedIn);
 
+
+
+
+//  User API
+route.post("/v3/user",user_controller.CreateUser);
+route.get("/v3/user",user_controller.FindUser);
+route.delete("/v3/user/",UserAuth, user_controller.DeleteUser);
+route.put("/v3/user/:id",user_controller.UpdateUser);
+route.post("/v3/userLogin",user_controller.UserLogin);
+route.post("/v3/userLogout",UserAuth,user_controller.UserLogout);
+route.get("/v3/user/individual",user_controller.IsUserLoggedIn);
+
+
+
+
+// for mailing.........
 route.get("/v3/mail", mail_controller.sendMail);
 
 

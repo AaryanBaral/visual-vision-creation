@@ -1,16 +1,16 @@
-const admindb = require("../models/AdminModel").admindb;
+const userdb = require("../models/UserModel").userdb
 const jwt = require("jsonwebtoken");
-const AdminAuth = async(req, res, next)=>{
+const UserAuth = async(req, res, next)=>{
     try {
         const token = req.headers['token'];
         const verify = jwt.verify(token ,process.env.JWT_SECERATE_KEY);
-        const admin = await admindb.findById({_id:verify._id});
+        const user = await userdb.findById({_id:verify._id});
         req.token = token;
-        req.admin = admin;
+        req.user = user;
         next();
     } catch (err) {
         res.status(500).json(`error occoured ------> ${err}`);
     }
 }
 
-module.exports = AdminAuth;
+module.exports = UserAuth;
