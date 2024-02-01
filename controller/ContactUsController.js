@@ -1,4 +1,14 @@
 const conactdb = require("../models/ContactUsModel").contactdb;
+const nodemailer =  require("nodemailer");
+const transporter = nodemailer.createTransport({
+    service:"gmail",
+    auth:{
+        user:"aryanbaral1100@gmail.com",
+        pass:"sziz tqap fdhk pesz"
+    }
+})
+
+
 
 exports.CreateContact = async(req, res)=>{
     try {
@@ -18,7 +28,15 @@ exports.CreateContact = async(req, res)=>{
             res.status(300).json({message:"error"});
             return ;
         }
+        let msg = {
+            to:`${email}`,
+            from:"aryanbaral1100@gmail.com",
+            subject:"new contact posted",
+            text:`Hi admin a user named ${name} contact number ${contact}, has aspired you to contact them saying '${description}' `
+        }
+        await transporter.sendMail(msg);
         res.json({message:"contact created sucessfully."});
+
     } catch (err) {
         res.status(500).json(`error occoured ------> ${err}`);
     }

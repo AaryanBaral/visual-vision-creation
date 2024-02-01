@@ -145,4 +145,10 @@ route.get("/v3/user/individual",user_controller.IsUserLoggedIn);
 route.get("/v3/mail", mail_controller.sendMail);
 
 
+
+
+// auth otp using gmail
+
+
+
 module.exports = route

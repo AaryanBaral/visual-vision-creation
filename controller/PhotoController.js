@@ -17,7 +17,6 @@ exports.CreatePhoto = async(req, res)=>{
         const snapshot = await image.UploadImage(file);
         const imageUrl = snapshot.DownloadUrl;
         const{category,description} = req.body;
-        console.log(category)
         const newphoto = new photodb({
             category,
             description,
