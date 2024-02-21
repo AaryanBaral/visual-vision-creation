@@ -100,7 +100,7 @@ route.get("/v3/admin/individual",admin_controller.IsAdminLoggedIn);
 route.post("/v3/user",user_controller.CreateUser);
 route.get("/v3/user",user_controller.FindUser);
 route.delete("/v3/user/",UserAuth, user_controller.DeleteUser);
-route.put("/v3/user/:id",user_controller.UpdateUser);
+route.put("/v3/user/:id",upload,user_controller.UpdateUser);
 route.post("/v3/userLogin",user_controller.UserLogin);
 route.post("/v3/userLogout",UserAuth,user_controller.UserLogout);
 route.get("/v3/user/individual",user_controller.IsUserLoggedIn);

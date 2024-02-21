@@ -30,18 +30,6 @@ app.use(body_parser.json());
 
 
 
-// cookie
-app.use(cookie());
-
-
-// sessoins
-app.use(sessoin({
-    resave:false,
-    saveUninitialized:false,
-    secret:"holaolaholaolaholaola"
-}))
-
-
 // database connection
 databse.connectDb();
 

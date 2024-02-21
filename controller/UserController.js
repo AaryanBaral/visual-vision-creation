@@ -1,6 +1,7 @@
 const userdb = require("../models/UserModel").userdb
 const bcrypt = require("bcryptjs");
 const jwt = require("jsonwebtoken");
+const image = require("../middleware/UploadFile");
 
 exports.CreateUser= async(req, res)=>{
     try {
@@ -54,12 +55,29 @@ exports.UpdateUser = async(req,res)=>{
             res.status(400).json({message:"no information provided"});
             return;
         }
-        const{email, password,name,address} = req.body;
         const id = req.params.id;
+        let file = {};
+        let imageUrl;
+        const user = await userdb.findById({_id:id});
+        if(req.file){
+            file = {
+                type:req.file.mimetype,
+                buffer:req.file.buffer
+            }
+            if(user.imageUrl!=="https://icon-library.com/images/anonymous-avatar-icon/anonymous-avatar-icon-25.jpg"){
+                image.DeleteImage(user.imageUrl);
+            }
+            const snapshot = await image.UploadImage(file);
+            imageUrl = snapshot.DownloadUrl;
+        }
+        else{
+            imageUrl=user.imageUrl;
+        }
+        const{name,address} = req.body;
         await userdb.findByIdAndUpdate({_id:id},{
-            email,
             name,
             address,
+            imageUrl
         });
         res.json({message:"user of given id updated sucessfully"});
     } catch (err) {
