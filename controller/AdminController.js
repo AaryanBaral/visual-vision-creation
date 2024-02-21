@@ -29,7 +29,6 @@ exports.CreateAdmin= async(req, res)=>{
 
 exports.DeleteAdmin = async(req,res)=>{
     try {
-        console.log(req.admin._id);
         const data = await admindb.findByIdAndDelete({_id:req.admin._id})
         if(!data){
             res.status(401).send("error while deleting admin profile");

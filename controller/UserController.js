@@ -32,13 +32,12 @@ exports.CreateUser= async(req, res)=>{
 
 exports.DeleteUser = async(req,res)=>{
     try {
-        console.log(req.user._id);
-        const data = await userdb.findByIdAndDelete({_id:req.user._id})
+        const data = await userdb.findByIdAndDelete({_id:req.user._id});
         if(!data){
             res.status(401).send("error while deleting user profile");
             return ;
         }
-        res.send("user data deleted sucessfully");
+        res.status(200).send("user data deleted sucessfully");
     } catch (err) {
         res.status(500).json(`error occoured ------> ${err}`);
     }
@@ -123,7 +122,6 @@ exports.UserLogin = async(req, res)=>{
         }
         const token = await user.generateAuthToken();
         await user.save();
-        console.log(token);
         return res.json({message:token});
         
     } catch (err) {
