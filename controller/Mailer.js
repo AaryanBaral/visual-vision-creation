@@ -5,7 +5,8 @@ const transporter = nodemailer.createTransport({
         user:"aryanbaral1100@gmail.com",
         pass:"sziz tqap fdhk pesz"
     }
-})
+});
+
 exports.sendMail = async(req, res)=>{
     try{
 

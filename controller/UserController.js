@@ -4,6 +4,7 @@ const jwt = require("jsonwebtoken");
 
 exports.CreateUser= async(req, res)=>{
     try {
+        
         if(!req.body){
             res.status(400).json({message:"body empty"});
             return ;
@@ -77,7 +78,7 @@ exports.FindUser = async(req,res)=>{
             res.json(data);
             return;
         }
-        const data =await userdb.find();
+        const data =await userdb.find().select("-password").select("-tokens");
         res.send(data);
         return;        
     } catch (err) {
@@ -103,7 +104,8 @@ exports.UserLogin = async(req, res)=>{
             return ; 
         }
         const token = await user.generateAuthToken();
-        user.save();
+        await user.save();
+        console.log(token);
         return res.json({message:token});
         
     } catch (err) {
@@ -114,9 +116,8 @@ exports.UserLogin = async(req, res)=>{
 exports.IsUserLoggedIn = async(req, res)=>{
     try {
         const token = req.headers['token'];
-
-        const verify = jwt.verify(token ,process.env.JWT_SECERATE_KEY);
-        const user = await userdb.findById({_id:verify._id});
+        const verify = await jwt.verify(token ,process.env.JWT_SECERATE_KEY);
+        const user = await userdb.findById({_id:verify._id}).select("-password").select("-tokens");
         res.json({data:user});
     } catch (err) {
         res.status(500).json(`error occoured ------> ${err}`);
