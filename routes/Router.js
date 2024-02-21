@@ -23,39 +23,6 @@ route.get("/",(req,res)=>{
 
 
 
-// cookie apis
-
-route.get("/setcookie",(req,res)=>{
-    res.cookie("cookie",25);
-    console.log(req.cookies)
-    res.send("cookie set sucesfully.")
-})
-route.get("/deletecookie",(req, res)=>{
-    res.clearCookie('cookie');
-    res.send("cookie deleted sucessfully");
-})
-route.get("/viewcookie",(req,res)=>{
-    res.json(req.cookies)
-})
-
-
-
-
-// sessions apis
-route.get("/setsessions",(req,res)=>{
-    req.session.myage = 25;
-    res.send("session set sucesfully.")
-})
-route.get("/deletesessions",(req, res)=>{
-    req.session.destroy(function (err){
-        if (err) throw err; 
-        res.send("session deleted sucessfully");
-    });
-})
-route.get("/viewsessions",(req,res)=>{
-    res.json(req.session)
-})
-
 
 
 
